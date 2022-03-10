@@ -10,20 +10,13 @@ module.exports.create = (taskName) => {
         if (err) {
             console.log(err)
         } else {
-            let list
-            try {
-                list = JSON.parse(data.toString())
-            } catch (err2) {
-                list = []
-            }
-            const task = {
+            let list = !data.toString() ? [] : JSON.parse(data.toString())
+            list.push({
                 title: taskName,
                 done: false
-            }
-            list.push(task)
-            const str = JSON.stringify(list)
-            fs.writeFile(dbPath, str, (err3) => {
-                if (err) {
+            })
+            fs.writeFile(dbPath, JSON.stringify(list), (err3) => {
+                if (err3) {
                     console.log(err3)
                 } else {
                     console.log("保存成功")
